@@ -90,7 +90,7 @@ if __name__ == '__main__':
                 offsets += offset
 
         if x64 or x32:
-            filename = '%s->%s_%s.res' % (port[0], port[1], datetime.datetime.now().strftime('%H%M%S'))
+            filename = '%s->%s.%s.log' % (port[0], port[1], datetime.datetime.now().strftime('%H%M%S'))
             with open(filename, 'w') as fw:
                 if x64:
                     fw.write('x64\n')
@@ -100,7 +100,10 @@ if __name__ == '__main__':
                 for idx in log:
                     if idx < 0:
                         idx = -1 - idx
-                        fw.write('<== %s' % server[idx])
+                        if '{{base}}' in server[idx]:
+                            fw.write('--------\n')
+                            fw.write(server[idx])
+                            fw.write('--------\n')
                     else:
                         idx -= 1
-                        fw.write('==> %s' % client[idx])
+                        fw.write(client[idx])
