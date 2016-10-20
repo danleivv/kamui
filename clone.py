@@ -25,7 +25,7 @@ def calc_offset(tcp, base, bt):
         tcp, addr, tail = tcp[:pos-bt+1], tcp[pos-bt+1:pos+1], tcp[pos+1:]
         addr = int(addr[::-1].encode('hex'), 16) - int(base, 16)
         rep = '#%x#' % addr + tail + rep
-        offset.append(hex(addr))
+        offset.append(hex(addr)[2:])
     return tcp + rep, offset
 
 
@@ -45,8 +45,6 @@ if __name__ == '__main__':
             pkt[(dport, sport)].append(tcpdata)
 
     for port in pkt:
-        if port[1] != 51132:
-            continue
         tcpstream = pkt[port]
         pre = None
         client = []
